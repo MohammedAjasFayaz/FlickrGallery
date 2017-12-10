@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Rzg-EL-7Xp">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="HelveticaNeue.ttc">
+            <string>HelveticaNeue</string>
+        </array>
+    </customFonts>
+    <scenes>
+        <!--Collection View Controller-->
+        <scene sceneID="8pE-x3-kRw">
+            <objects>
+                <collectionViewController id="Nu0-yW-NrU" customClass="CollectionViewController" customModule="FlickrGallery" customModuleProvider="target" sceneMemberID="viewController">
+                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="4Yi-R8-RWl">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Jaj-YA-6Oo">
+                            <size key="itemSize" width="115" height="112"/>
+                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                        </collectionViewFlowLayout>
+                        <cells>
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="cell" id="Ico-vb-M29" customClass="PhotoCell" customModule="FlickrGallery" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="115" height="112"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
+                                    <rect key="frame" x="0.0" y="0.0" width="115" height="112"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" translatesAutoresizingMaskIntoConstraints="NO" id="QfE-iS-Z8W">
+                                            <rect key="frame" x="0.0" y="0.0" width="115" height="95"/>
+                                        </imageView>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Titel" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ynB-aE-mqs" userLabel="Title">
+                                            <rect key="frame" x="0.0" y="100" width="115" height="12"/>
+                                            <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="10"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                </view>
+                                <constraints>
+                                    <constraint firstItem="ynB-aE-mqs" firstAttribute="top" secondItem="QfE-iS-Z8W" secondAttribute="bottom" constant="5" id="7hh-X9-x8z"/>
+                                    <constraint firstAttribute="trailing" secondItem="ynB-aE-mqs" secondAttribute="trailing" id="KHX-ih-bY1"/>
+                                    <constraint firstAttribute="bottom" secondItem="ynB-aE-mqs" secondAttribute="bottom" id="UJe-cq-hRN"/>
+                                    <constraint firstItem="QfE-iS-Z8W" firstAttribute="top" secondItem="Ico-vb-M29" secondAttribute="top" id="b7U-Y5-1aa"/>
+                                    <constraint firstItem="QfE-iS-Z8W" firstAttribute="leading" secondItem="Ico-vb-M29" secondAttribute="leading" id="f5U-x6-N8h"/>
+                                    <constraint firstAttribute="trailing" secondItem="QfE-iS-Z8W" secondAttribute="trailing" id="go9-Al-2H2"/>
+                                    <constraint firstItem="ynB-aE-mqs" firstAttribute="leading" secondItem="Ico-vb-M29" secondAttribute="leading" id="pC2-nX-g6y"/>
+                                </constraints>
+                                <connections>
+                                    <outlet property="PhotoTitle" destination="ynB-aE-mqs" id="Qde-0j-gmT"/>
+                                    <outlet property="PhotoView" destination="QfE-iS-Z8W" id="WM2-vn-qSj"/>
+                                </connections>
+                            </collectionViewCell>
+                        </cells>
+                        <connections>
+                            <outlet property="dataSource" destination="Nu0-yW-NrU" id="YY4-oj-sTP"/>
+                            <outlet property="delegate" destination="Nu0-yW-NrU" id="rLd-VX-B3y"/>
+                        </connections>
+                    </collectionView>
+                    <navigationItem key="navigationItem" id="CC6-w6-bki"/>
+                </collectionViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="SBK-QJ-Icg" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1194" y="-206"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="Knd-nn-lWF">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Rzg-EL-7Xp" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="K1C-rG-l0J">
+                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="Nu0-yW-NrU" kind="relationship" relationship="rootViewController" id="unR-fA-9gr"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="pI2-eo-e8q" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-5383" y="332"/>
+        </scene>
+    </scenes>
+</document>

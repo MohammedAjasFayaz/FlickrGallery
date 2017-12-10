@@ -8,20 +8,30 @@
 
 /* Begin PBXBuildFile section */
 		388EFBB71FDD6CB600F13953 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 388EFBB61FDD6CB600F13953 /* AppDelegate.swift */; };
-		388EFBB91FDD6CB600F13953 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 388EFBB81FDD6CB600F13953 /* ViewController.swift */; };
 		388EFBBC1FDD6CB600F13953 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 388EFBBA1FDD6CB600F13953 /* Main.storyboard */; };
 		388EFBBE1FDD6CB600F13953 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 388EFBBD1FDD6CB600F13953 /* Assets.xcassets */; };
 		388EFBC11FDD6CB600F13953 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 388EFBBF1FDD6CB600F13953 /* LaunchScreen.storyboard */; };
+		388EFBD11FDD8AC000F13953 /* CollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 388EFBD01FDD8AC000F13953 /* CollectionViewController.swift */; };
+		388EFBD51FDD8C3600F13953 /* PhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 388EFBD41FDD8C3600F13953 /* PhotoCell.swift */; };
+		388EFBD81FDD9CAE00F13953 /* Ajas_formal.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 388EFBD71FDD91A400F13953 /* Ajas_formal.jpg */; };
+		388EFBDA1FDDA0A400F13953 /* PhotoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 388EFBD91FDDA0A400F13953 /* PhotoModel.swift */; };
+		388EFBDC1FDDA1A500F13953 /* RestServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 388EFBDB1FDDA1A500F13953 /* RestServices.swift */; };
+		388EFBDE1FDDA69A00F13953 /* PhotoResultContoller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 388EFBDD1FDDA69A00F13953 /* PhotoResultContoller.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		388EFBB31FDD6CB600F13953 /* FlickrGallery.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FlickrGallery.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		388EFBB61FDD6CB600F13953 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		388EFBB81FDD6CB600F13953 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		388EFBBB1FDD6CB600F13953 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		388EFBBD1FDD6CB600F13953 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		388EFBC01FDD6CB600F13953 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		388EFBC21FDD6CB600F13953 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		388EFBD01FDD8AC000F13953 /* CollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewController.swift; sourceTree = "<group>"; };
+		388EFBD41FDD8C3600F13953 /* PhotoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCell.swift; sourceTree = "<group>"; };
+		388EFBD71FDD91A400F13953 /* Ajas_formal.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Ajas_formal.jpg; sourceTree = "<group>"; };
+		388EFBD91FDDA0A400F13953 /* PhotoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoModel.swift; sourceTree = "<group>"; };
+		388EFBDB1FDDA1A500F13953 /* RestServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestServices.swift; sourceTree = "<group>"; };
+		388EFBDD1FDDA69A00F13953 /* PhotoResultContoller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoResultContoller.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,14 +64,43 @@
 		388EFBB51FDD6CB600F13953 /* FlickrGallery */ = {
 			isa = PBXGroup;
 			children = (
-				388EFBB61FDD6CB600F13953 /* AppDelegate.swift */,
-				388EFBB81FDD6CB600F13953 /* ViewController.swift */,
-				388EFBBA1FDD6CB600F13953 /* Main.storyboard */,
+				388EFBD61FDD8E2400F13953 /* Model */,
+				388EFBCF1FDD8AA900F13953 /* Controller */,
+				388EFBCE1FDD8A9900F13953 /* View */,
 				388EFBBD1FDD6CB600F13953 /* Assets.xcassets */,
+				388EFBD71FDD91A400F13953 /* Ajas_formal.jpg */,
 				388EFBBF1FDD6CB600F13953 /* LaunchScreen.storyboard */,
 				388EFBC21FDD6CB600F13953 /* Info.plist */,
 			);
 			path = FlickrGallery;
+			sourceTree = "<group>";
+		};
+		388EFBCE1FDD8A9900F13953 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				388EFBBA1FDD6CB600F13953 /* Main.storyboard */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		388EFBCF1FDD8AA900F13953 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				388EFBB61FDD6CB600F13953 /* AppDelegate.swift */,
+				388EFBD01FDD8AC000F13953 /* CollectionViewController.swift */,
+				388EFBD41FDD8C3600F13953 /* PhotoCell.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		388EFBD61FDD8E2400F13953 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				388EFBD91FDDA0A400F13953 /* PhotoModel.swift */,
+				388EFBDB1FDDA1A500F13953 /* RestServices.swift */,
+				388EFBDD1FDDA69A00F13953 /* PhotoResultContoller.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -124,6 +163,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				388EFBC11FDD6CB600F13953 /* LaunchScreen.storyboard in Resources */,
+				388EFBD81FDD9CAE00F13953 /* Ajas_formal.jpg in Resources */,
 				388EFBBE1FDD6CB600F13953 /* Assets.xcassets in Resources */,
 				388EFBBC1FDD6CB600F13953 /* Main.storyboard in Resources */,
 			);
@@ -136,8 +176,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				388EFBB91FDD6CB600F13953 /* ViewController.swift in Sources */,
 				388EFBB71FDD6CB600F13953 /* AppDelegate.swift in Sources */,
+				388EFBDC1FDDA1A500F13953 /* RestServices.swift in Sources */,
+				388EFBDE1FDDA69A00F13953 /* PhotoResultContoller.swift in Sources */,
+				388EFBD51FDD8C3600F13953 /* PhotoCell.swift in Sources */,
+				388EFBDA1FDDA0A400F13953 /* PhotoModel.swift in Sources */,
+				388EFBD11FDD8AC000F13953 /* CollectionViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
