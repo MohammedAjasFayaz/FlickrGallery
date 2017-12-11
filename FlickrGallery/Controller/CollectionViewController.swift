@@ -109,6 +109,51 @@ extension CollectionViewController
     }
 }
 
+
+extension CollectionViewController  {
+    
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        let actionSheet = UIAlertController.init(title: "Please choose a source type", message: nil, preferredStyle: .actionSheet)
+        //Getting the particular indexpath image details
+        let flickrPhoto = photoForIndexPath(indexPath)
+        
+        actionSheet.addAction(UIAlertAction.init(title: "Open in Browser", style: UIAlertActionStyle.default, handler: { (action) in
+            guard  let url = flickrPhoto.imageURL() else{
+                return
+            }
+            if #available(iOS 10.0, *) {
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            } else {
+                UIApplication.shared.openURL(url)
+            }
+
+        }))
+        actionSheet.addAction(UIAlertAction.init(title: "Save to Gallery", style: UIAlertActionStyle.default, handler: { (action) in
+            
+            guard  let imageData = flickrPhoto.thumbnail  else{
+                return
+            }
+            let saveImageData = UIImage(data: imageData)
+            UIImageWriteToSavedPhotosAlbum(saveImageData!, nil, nil, nil)
+            let alert = UIAlertController(title: "Completed", message: "Image has been saved!", preferredStyle: .alert)
+            let action = UIAlertAction(title: "Ok", style: .default, handler: nil)
+            alert.addAction(action)
+            self.present(alert, animated: true, completion: nil)
+            
+            
+        }))
+        actionSheet.addAction(UIAlertAction.init(title: "Cancel", style: UIAlertActionStyle.cancel, handler: { (action) in
+            
+        }))
+        //Present the controller
+        self.present(actionSheet, animated: true, completion: nil)
+        
+        
+    
+    }
+}
+
 //MARK: - CollectionView Layout Methods
 extension CollectionViewController : UICollectionViewDelegateFlowLayout
 {
@@ -128,6 +173,10 @@ extension CollectionViewController : UICollectionViewDelegateFlowLayout
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return sectionInsets.left
     }
+    
+    
+    
+    
     
 }
 
