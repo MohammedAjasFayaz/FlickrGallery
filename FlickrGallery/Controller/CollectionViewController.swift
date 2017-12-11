@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MessageUI
 
 class CollectionViewController: UICollectionViewController {
     // MARK: - Properties
@@ -109,6 +110,61 @@ extension CollectionViewController
     }
 }
 
+
+extension CollectionViewController :MFMailComposeViewControllerDelegate {
+    
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        let actionSheet = UIAlertController.init(title: "Please choose a source type", message: nil, preferredStyle: .actionSheet)
+        //Getting the particular indexpath image details
+        let flickrPhoto = photoForIndexPath(indexPath)
+        
+        actionSheet.addAction(UIAlertAction.init(title: "Open in Browser", style: UIAlertActionStyle.default, handler: { (action) in
+            guard  let url = flickrPhoto.imageURL() else{
+                return
+            }
+            if #available(iOS 10.0, *) {
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            } else {
+                UIApplication.shared.openURL(url)
+            }
+
+        }))
+        actionSheet.addAction(UIAlertAction.init(title: "Save to Gallery", style: UIAlertActionStyle.default, handler: { (action) in
+            
+            guard  let imageData = flickrPhoto.thumbnail  else{
+                return
+            }
+            let saveImageData = UIImage(data: imageData)
+            UIImageWriteToSavedPhotosAlbum(saveImageData!, nil, nil, nil)
+            let alert = UIAlertController(title: "Completed", message: "Image has been saved!", preferredStyle: .alert)
+            let action = UIAlertAction(title: "Ok", style: .default, handler: nil)
+            alert.addAction(action)
+            self.present(alert, animated: true, completion: nil)
+                    }))
+        
+        actionSheet.addAction(UIAlertAction.init(title: "Email", style: UIAlertActionStyle.default, handler: { (action) in
+          
+                let composeVC = MFMailComposeViewController()
+                composeVC.mailComposeDelegate = self
+//            composeVC.setToRecipients(["address@example.com"])
+//            guard  let imageData = flickrPhoto.thumbnail  else{
+//                return
+//            }
+//            let saveImageData = UIImage(data: imageData)
+//            composeVC.addAttachmentData(UIImageJPEGRepresentation(saveImageData!, 1.0)!, mimeType: "image/jpeg", fileName:  "test.jpeg")
+//                composeVC.setSubject("Flickr Image \(flickrPhoto.title)")
+//                composeVC.setMessageBody("Hello this is my message body!", isHTML: false)
+//                self.present(composeVC, animated: true, completion: nil)
+         }))
+        actionSheet.addAction(UIAlertAction.init(title: "Cancel", style: UIAlertActionStyle.cancel, handler: { (action) in
+
+        }))
+        self.present(actionSheet, animated: true, completion: nil)
+   
+    }
+}
+
 //MARK: - CollectionView Layout Methods
 extension CollectionViewController : UICollectionViewDelegateFlowLayout
 {
@@ -128,6 +184,10 @@ extension CollectionViewController : UICollectionViewDelegateFlowLayout
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return sectionInsets.left
     }
+    
+    
+    
+    
     
 }
 
