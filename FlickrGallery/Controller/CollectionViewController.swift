@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MessageUI
 
 class CollectionViewController: UICollectionViewController {
     // MARK: - Properties
@@ -110,7 +111,7 @@ extension CollectionViewController
 }
 
 
-extension CollectionViewController  {
+extension CollectionViewController :MFMailComposeViewControllerDelegate {
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
@@ -140,17 +141,27 @@ extension CollectionViewController  {
             let action = UIAlertAction(title: "Ok", style: .default, handler: nil)
             alert.addAction(action)
             self.present(alert, animated: true, completion: nil)
-            
-            
-        }))
+                    }))
+        
+        actionSheet.addAction(UIAlertAction.init(title: "Email", style: UIAlertActionStyle.default, handler: { (action) in
+          
+                let composeVC = MFMailComposeViewController()
+                composeVC.mailComposeDelegate = self
+//            composeVC.setToRecipients(["address@example.com"])
+//            guard  let imageData = flickrPhoto.thumbnail  else{
+//                return
+//            }
+//            let saveImageData = UIImage(data: imageData)
+//            composeVC.addAttachmentData(UIImageJPEGRepresentation(saveImageData!, 1.0)!, mimeType: "image/jpeg", fileName:  "test.jpeg")
+//                composeVC.setSubject("Flickr Image \(flickrPhoto.title)")
+//                composeVC.setMessageBody("Hello this is my message body!", isHTML: false)
+//                self.present(composeVC, animated: true, completion: nil)
+         }))
         actionSheet.addAction(UIAlertAction.init(title: "Cancel", style: UIAlertActionStyle.cancel, handler: { (action) in
-            
+
         }))
-        //Present the controller
         self.present(actionSheet, animated: true, completion: nil)
-        
-        
-    
+   
     }
 }
 
