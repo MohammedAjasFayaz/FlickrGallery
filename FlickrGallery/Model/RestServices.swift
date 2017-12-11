@@ -8,93 +8,76 @@
 
 import Foundation
 private let apiKey = "599ab9f655e622f62c05887139e0613e"
-
-
 class RestServices {
     let Queue = OperationQueue()
     
-    
-    
- func searchFlickrForTerm(completion : @escaping (_ results: PhotoResultContoller?, _ error : NSError?) -> Void){
+    func recentFlickrPhoto(completion : @escaping (_ results: PhotoResultContoller?, _ error : NSError?) -> Void){
+        
+        let Error = NSError(domain: "LatestFlickr", code: 0, userInfo: [NSLocalizedFailureReasonErrorKey:"Unknown API response"])
+       
         guard let latestURL = getRecentPhotosUrl() else {
-            let APIError = NSError(domain: "LatestPhotosServices", code: 0, userInfo: [NSLocalizedFailureReasonErrorKey:"Unknown API response"])
-            completion(nil, APIError)
+            completion(nil, Error)
             return
         }
         
-        let urlRequest = URLRequest(url : latestURL)
+        let request = URLRequest(url : latestURL)
+        postHttpRequest(urlRequest: request, APIError: Error, completion: completion)
+}
+    
+    //MARK: - Generating the URL
+    private func getRecentPhotosUrl() -> URL? {
         
+        let URLString = "https://api.flickr.com/services/rest/?method=flickr.photos.getRecent&api_key=\(apiKey)&per_page=50&format=json&nojsoncallback=1"
+        guard let url = URL(string:URLString) else {
+            return nil
+        }
+        return url
+    }
+    
+    //MARK: - Getting Json and Paring
+    private func postHttpRequest(urlRequest : URLRequest, APIError : NSError,completion : @escaping (_ results: PhotoResultContoller?, _ error : NSError?) -> Void)
+    {
         
-        URLSession.shared.dataTask(with: urlRequest, completionHandler: { (data, response, error) in
-            
+         URLSession.shared.dataTask(with: urlRequest, completionHandler: { (data, response, error) in
             if let _ = error {
-                let APIError = NSError(domain: "FlickrSearch", code: 0, userInfo: [NSLocalizedFailureReasonErrorKey:"Unknown API response"])
                 OperationQueue.main.addOperation({
                     completion(nil, APIError)
                 })
                 return
             }
-            
             guard let _ = response as? HTTPURLResponse,
                 let data = data else {
-                    let APIError = NSError(domain: "FlickrSearch", code: 0, userInfo: [NSLocalizedFailureReasonErrorKey:"Unknown API response"])
                     OperationQueue.main.addOperation({
-                        completion(nil, APIError)
+                        completion(nil,APIError)
                     })
                     return
             }
-            
             do {
-                
                 guard let resultsDictionary = try JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions(rawValue: 0)) as? [String: AnyObject],
                     let stat = resultsDictionary["stat"] as? String else {
-                        
-                        let APIError = NSError(domain: "FlickrSearch", code: 0, userInfo: [NSLocalizedFailureReasonErrorKey:"Unknown API response"])
                         OperationQueue.main.addOperation({
-                            completion(nil, APIError)
+                            completion(nil,APIError)
                         })
                         return
                 }
-                
                 switch (stat) {
                 case "ok":
-                    print("Results processed OK")
-                case "fail":
-                    if let message = resultsDictionary["message"] {
-                        
-                        let APIError = NSError(domain: "FlickrSearch", code: 0, userInfo: [NSLocalizedFailureReasonErrorKey:message])
-                        
-                        OperationQueue.main.addOperation({
-                            completion(nil, APIError)
-                        })
-                    }
-                    
-                    let APIError = NSError(domain: "FlickrSearch", code: 0, userInfo: nil)
-                    
-                    OperationQueue.main.addOperation({
-                        completion(nil, APIError)
-                    })
-                    
-                    return
+                    print("API Call Success")
                 default:
-                    let APIError = NSError(domain: "FlickrSearch", code: 0, userInfo: [NSLocalizedFailureReasonErrorKey:"Unknown API response"])
                     OperationQueue.main.addOperation({
-                        completion(nil, APIError)
+                        completion(nil,APIError)
                     })
                     return
                 }
                 
                 guard let photosContainer = resultsDictionary["photos"] as? [String: AnyObject], let photosReceived = photosContainer["photo"] as? [[String: AnyObject]] else {
-                    
-                    let APIError = NSError(domain: "FlickrSearch", code: 0, userInfo: [NSLocalizedFailureReasonErrorKey:"Unknown API response"])
                     OperationQueue.main.addOperation({
-                        completion(nil, APIError)
+                        completion(nil,APIError)
                     })
                     return
                 }
                 
                 var flickrPhotos = [PhotoModel]()
-                
                 for photoObject in photosReceived {
                     guard let photoID = photoObject["id"] as? String,
                         let farm = photoObject["farm"] as? Int ,
@@ -121,22 +104,7 @@ class RestServices {
                 completion(nil, nil)
                 return
             }
-            
-            
-        }) .resume()
-    
-    }
-
-    
-    private func getRecentPhotosUrl() -> URL? {
-        
-        let URLString = "https://api.flickr.com/services/rest/?method=flickr.photos.getRecent&api_key=\(apiKey)&per_page=50&format=json&nojsoncallback=1"
-
-        guard let url = URL(string:URLString) else {
-            return nil
-        }
-        
-        return url
+        }).resume()
     }
     
 }
