@@ -15,6 +15,8 @@ class CollectionViewController: UICollectionViewController {
     private let itemsPerRow : CGFloat = 2
     private let flickr = RestServices()
     private var resultPhotos = [PhotoResultContoller]()
+    private let  activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .gray)
+    
     
     //MARK: - View Delegates
     override func viewDidLoad() {
@@ -23,15 +25,47 @@ class CollectionViewController: UICollectionViewController {
     //MARK: - Calling Recent updated RestServices
     func callLatestPhotos()
     {
-        self.title = "LatestFlickrPhotos"
-        let  activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .gray)
+        addLoader()
+        flickr.recentFlickrPhoto()
+            {
+                results, error in
+                DispatchQueue.main.async {
+                    self.activityIndicator.removeFromSuperview()
+                    
+                }
+                if let error = error {
+                    print("Error searching : \(error)")
+                    return
+                }
+                if let results = results {
+                    self.resultPhotos.insert(results, at: 0)
+                    self.collectionView?.reloadData()
+                }
+        }
+    }
+    //MARK: -Placing ActivityIndicator
+    func addLoader()
+    {
+        activityIndicator.transform = CGAffineTransform(scaleX: 3, y: 3)
         view.addSubview(activityIndicator)
         view.bringSubview(toFront: activityIndicator)
         activityIndicator.frame = view.bounds
         activityIndicator.startAnimating()
-        flickr.recentFlickrPhoto(){
+    }
+    
+}
+//MARK: - Search TextField Delegates
+extension CollectionViewController : UITextFieldDelegate{
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        addLoader()
+        flickr.searchFlickrPhoto(textField.text!)
+        {
             results, error in
-            activityIndicator.removeFromSuperview()
+            DispatchQueue.main.async {
+                self.activityIndicator.removeFromSuperview()
+                
+            }
             if let error = error {
                 print("Error searching : \(error)")
                 return
@@ -40,13 +74,14 @@ class CollectionViewController: UICollectionViewController {
                 self.resultPhotos.insert(results, at: 0)
                 self.collectionView?.reloadData()
             }
-            
         }
+        textField.text = nil
+        textField.resignFirstResponder()
+        return true
     }
-
 }
 
- //MARK: - CollectionView Datasources Methods
+//MARK: - CollectionView Datasources Methods
 extension CollectionViewController
 {
     func photoForIndexPath(_ indexPath: IndexPath) -> PhotoModel {
@@ -66,14 +101,14 @@ extension CollectionViewController
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdetifier, for: indexPath) as! PhotoCell
         let flickrPhoto = photoForIndexPath(indexPath)
         if let image = UIImage(data : flickrPhoto.thumbnail!) {
-             cell.PhotoView.image = image
-           
+            cell.PhotoView.image = image
+            
         }
         cell.PhotoTitle.text = flickrPhoto.title
         return cell
     }
 }
-    
+
 //MARK: - CollectionView Layout Methods
 extension CollectionViewController : UICollectionViewDelegateFlowLayout
 {
@@ -93,6 +128,6 @@ extension CollectionViewController : UICollectionViewDelegateFlowLayout
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return sectionInsets.left
     }
-
+    
 }
 

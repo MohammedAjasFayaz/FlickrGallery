@@ -24,6 +24,17 @@ class RestServices {
         postHttpRequest(urlRequest: request, APIError: Error, completion: completion)
 }
     
+    func searchFlickrPhoto(_ keyToSearch: String, completion : @escaping (_ results: PhotoResultContoller?, _ error : NSError?) -> Void){
+        
+        let Error = NSError(domain: "SearchFlicker", code: 0, userInfo: [NSLocalizedFailureReasonErrorKey:"Unknown API response"])
+        guard let latestURL = getSearchUrl(keyToSearch) else {
+            completion(nil, Error)
+            return
+        }
+        let request = URLRequest(url : latestURL)
+        postHttpRequest(urlRequest: request, APIError: Error, completion: completion)
+    }
+    
     //MARK: - Generating the URL
     private func getRecentPhotosUrl() -> URL? {
         
@@ -33,6 +44,19 @@ class RestServices {
         }
         return url
     }
+    private func getSearchUrl(_ searchTerm:String) -> URL? {
+        guard let escapedTerm = searchTerm.addingPercentEncoding(withAllowedCharacters: CharacterSet.alphanumerics) else {
+            return nil
+        }
+            let URLString = "https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=\(apiKey)&text=\(escapedTerm)&per_page=20&format=json&nojsoncallback=1"
+        guard let url = URL(string:URLString) else {
+            return nil
+        }
+        return url
+    }
+
+    
+
     
     //MARK: - Getting Json and Paring
     private func postHttpRequest(urlRequest : URLRequest, APIError : NSError,completion : @escaping (_ results: PhotoResultContoller?, _ error : NSError?) -> Void)
